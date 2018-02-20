@@ -215,3 +215,61 @@ Question: Could a tree contain a reference to itself?
 
 Image illustrating trees from the brilliant
 [Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+
+Question: How would changing the contents of `./bak/test.txt` affect `./`?
+
+## Git Commits
+
+Commits are probably where we're most used to seeing hashes.
+
+```bash
+cat .git/refs/heads/master
+# 8a9ed21916ea47467cd5d221c42c8c2c32ec4cd7
+git cat-file -p 8a9ed21916ea47467cd5d221c42c8c2c32ec4cd7
+# tree 57f43caf06e8ea6ab879dcaee2e8e1f23da4837d
+# parent 4ff7833ba1019717830310d2e7bb9bb43c039e28
+# author Chris Couzens <ccouzens@gmail.com> 1519159220 +0000
+# committer Chris Couzens <ccouzens@gmail.com> 1519159220 +0000
+#
+# Add git tree section
+cat .git/objects/8a/9ed21916ea47467cd5d221c42c8c2c32ec4cd7 | zlib-flate -uncompress
+# commit 237tree 57f43caf06e8ea6ab879dcaee2e8e1f23da4837d
+# parent 4ff7833ba1019717830310d2e7bb9bb43c039e28
+# author Chris Couzens <ccouzens@gmail.com> 1519159220 +0000
+# committer Chris Couzens <ccouzens@gmail.com> 1519159220 +0000
+#
+# Add git tree section
+cat .git/objects/8a/9ed21916ea47467cd5d221c42c8c2c32ec4cd7 | zlib-flate -uncompress | sha1sum
+# 8a9ed21916ea47467cd5d221c42c8c2c32ec4cd7  -
+```
+
+Just like blobs and trees, we can see that the object starts off with it's type
+followed by the length of the content.
+
+Next comes the tree telling git what the commit contains.
+This is important, it shows that a commit is stored as a snapshot rather than a
+diff.
+
+Then comes the parent commit.
+This is the previous commit.
+
+Question: Why might a commit have multiple parents?
+
+Question: Why might a commit have 0 parents?
+
+Finally, it has the author, committer and commit message.
+The date it is authored and committed is stored as an ASCII number.
+We can see it was stored as a Unix Epoch offset.
+
+```bash
+date -d @1519159220
+# Tue 20 Feb 20:40:20 GMT 2018
+```
+
+Question: What can change a commit's hash value?
+
+![git tree diagram](https://git-scm.com/book/en/v2/images/data-model-3.png)
+
+Image illustrating commits from the brilliant
+[Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+
