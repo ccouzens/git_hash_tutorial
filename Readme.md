@@ -155,3 +155,6 @@ In terms of Git, collision resistance means that it is extremely unlikely that
 This allows Git to safely treat the hash as a key to the data.
 
 ## Git Trees
+
+We've seen how Git stores the contents of files.
+But how does it store directories?
