@@ -1,3 +1,7 @@
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+http://creativecommons.org/licenses/by-nc-sa/3.0/
+
 # Git Hash
 
 Learn about all the different types of objects that hashes in Git can represent.
