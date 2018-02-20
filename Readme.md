@@ -20,6 +20,7 @@ You should be familiar with the following commands:
 ```bash
 git add Readme.md
 git commit
+git rebase
 git log --graph
 # * commit 80698fe28d5792e472d8159b88e2f865e5c2d015
 # | Author: Jeremy Soller <jackpot51@gmail.com>
@@ -268,8 +269,57 @@ date -d @1519159220
 
 Question: What can change a commit's hash value?
 
+Question: Can a commit be its own parent?
+
+Question: Is it possible to get circles in Git commits?
+
+Question: Can you see the connection between how a git commit is stored and
+how `git log --graph` displays?
+
 ![git tree diagram](https://git-scm.com/book/en/v2/images/data-model-3.png)
 
 Image illustrating commits from the brilliant
 [Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
 
+
+## Rebasing
+
+We'll refer back to the commit diagram.
+
+Question: What happens if we rebase to change the message of the 2nd commit?
+
+Question: What happens if we rebase to have ./test.txt contain "version 2" from
+the start?
+
+![git rebase diagram](https://git-scm.com/book/en/v2/images/basic-rebase-3.png)
+
+Image illustrating rebasing from the brilliant
+[Git book](https://git-scm.com/book/en/v2/Git-Branching-Rebasing).
+
+In the previous diagram we rebase the branch experiment from c2 to c3.
+
+Question: What changes about the commit?
+(One thing you know for sure from the diagram.
+What else typically changes when you do similar rebases?)
+
+Question: Do old commits disappear when you rebase?
+
+Question: What problems might you get if you rebase a branch that has been
+shared?
+
+## Conclusion
+
+We saw that hashes can represent blobs (files), trees (directories) and commits.
+
+We saw how git represents each of these on disk.
+We saw that it uses the SHA1 algorithm to generate the Hash key.
+
+We saw that any change you make to a commit or its history changes it into a
+different commit.
+Changing the contents of a file a few commits previous is enough to change a
+commit.
+
+We saw that rebasing changes your history and deviates your history.
+
+For more information, including Ruby examples, check out the excellent Git book.
+https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
