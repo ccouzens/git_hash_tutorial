@@ -157,4 +157,57 @@ This allows Git to safely treat the hash as a key to the data.
 ## Git Trees
 
 We've seen how Git stores the contents of files.
-But how does it store directories?
+
+Q: But how does it store directories?
+
+A: In trees!
+
+```bash
+ls -l example/
+# total 8
+# -rw-rw-r-- 1 chris chris   29 Feb 20 20:18 hello.txt
+# drwxrwxr-x 2 chris chris 4096 Feb 20 20:19 more
+git cat-file -p e260cef5a4af6b5d5de628c6b2a8b23c45d83f27
+# 100644 blob 2ec3a82131ef44c87e225b106700408bd52b205f	hello.txt
+# 040000 tree e442ba5dca7d166ec06686a09cebb01129f92f71	more
+cat .git/objects/e2/60cef5a4af6b5d5de628c6b2a8b23c45d83f27 | zlib-flate -uncompress | xxd
+# 00000000: 7472 6565 2036 3800 3130 3036 3434 2068  tree 68.100644 h
+# 00000010: 656c 6c6f 2e74 7874 002e c3a8 2131 ef44  ello.txt....!1.D
+# 00000020: c87e 225b 1067 0040 8bd5 2b20 5f34 3030  .~"[.g.@..+ _400
+# 00000030: 3030 206d 6f72 6500 e442 ba5d ca7d 166e  00 more..B.].}.n
+# 00000040: c066 86a0 9ceb b011 29f9 2f71            .f......)./q
+cat .git/objects/e2/60cef5a4af6b5d5de628c6b2a8b23c45d83f27 | zlib-flate -uncompress | sha1sum
+# e260cef5a4af6b5d5de628c6b2a8b23c45d83f27  -
+```
+
+Unfortunately, trees are a mix of binary and text, so they're harder to
+illustrate.
+
+We can see that for a directory, Git stores the contents.
+Each tree can be made up of several other trees and several blobs.
+
+We can see that for every entry Git stores the mode, the file name and the
+hash.
+
+File modes starting with 1 are blobs.
+We can see that Git stores slightly different permissions to what's on disk.
+
+Next comes the file name, which is a null terminated string.
+
+Finally comes the hash of the linked object.
+We have to look at the hexadecimal conversion for that.
+It is 20 bytes long.
+
+Question: Could a tree contain multiple references to the same blob?
+
+Question: Could a tree contain multiple references to the same tree?
+
+Question: What does it mean for the repository size if a file or directory is
+copied?
+
+Question: Could a tree contain a reference to itself?
+
+![git tree diagram](https://git-scm.com/book/en/v2/images/data-model-2.png)
+
+Image illustrating trees from the brilliant
+[Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
